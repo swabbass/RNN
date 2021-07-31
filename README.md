@@ -1,7 +1,17 @@
 # NavigationCore
  Navigation Core Lib to be base for future work
 
-# Workplan
+# Vision
+
+This lib will be a core lib that can simplify navigation on Android, using modern Composables, ViewModels and more cool stuff in order to mimic current `react-native-navigation` style, hence, Options for each View ,which is reactive, hosted by the ViewModel as a controller.
+
+After the Android native lib is ready, which can host any type of Views, Composables, a ReactNative Wrapper will enter the scene and serve as a navigation solution.
+
+It's a concept, needs a lot of reserching and playing around the the components until we have a complete solution.
+
+We are going to walk a long road to acheive this, hopefully it will see the light soon :] 🤞
+
+# TODO
 - [ ] Buttons bar (WIP)
 - [ ] Title Subtitle
 - [ ] TopAppBar 
