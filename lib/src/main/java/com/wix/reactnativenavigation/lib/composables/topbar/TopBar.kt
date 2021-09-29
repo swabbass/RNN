@@ -12,28 +12,30 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.wix.reactnativenavigation.lib.options.ButtonOptions
-import com.wix.reactnativenavigation.lib.options.ComponentOptions
+import com.wix.reactnativenavigation.lib.options.*
 
 @Composable
-fun TopBar(butons: List<ButtonOptions>, overFlowLimit: Int, title: String? = null) {
+fun TopBar(topBarOptions: TopBarOptions) {
     TopAppBar() {
         Box(Modifier.fillMaxSize()) {
-            ButtonsBar(
-                Modifier
-                    .fillMaxHeight()
-                    .layout { measurable, constraints ->
-                        val placeable = measurable.measure(constraints)
-                        layout(constraints.maxWidth, constraints.maxHeight) {
-                            placeable.placeRelative(0, 0)
-                        }
-                    },
-                btns = butons,
-                overFlowLimit = overFlowLimit
-            )
+            topBarOptions.leftButtonOptions?.let {
+                ButtonsBar(
+                    Modifier
+                        .fillMaxHeight()
+                        .layout { measurable, constraints ->
+                            val placeable = measurable.measure(constraints)
+                            layout(constraints.maxWidth, constraints.maxHeight) {
+                                placeable.placeRelative(0, 0)
+                            }
+                        },
+                    btns = it.buttons,
+                    overFlowLimit = it.overFlowSize
+                )
+            }
+
 
             //Title
-            title?.let {
+            topBarOptions.title?.let {
                 Row(Modifier.layout { measurable, constraints ->
                     val placeable = measurable.measure(constraints)
                     layout(constraints.maxWidth, constraints.maxHeight) {
@@ -46,24 +48,26 @@ fun TopBar(butons: List<ButtonOptions>, overFlowLimit: Int, title: String? = nul
                     Text(
                         textAlign = TextAlign.Center,
                         maxLines = 1,
-                        text = title,
+                        text = it.content,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
             }
+            topBarOptions.rightButtonOptions?.let {
+                ButtonsBar(
+                    Modifier
+                        .fillMaxHeight()
+                        .layout { measurable, constraints ->
+                            val placeable = measurable.measure(constraints)
+                            layout(constraints.maxWidth, constraints.maxHeight) {
+                                placeable.placeRelative(constraints.maxWidth - placeable.width, 0)
+                            }
+                        },
+                    btns = it.buttons.takeLast(3),
+                    overFlowLimit = it.overFlowSize
+                )
+            }
 
-            ButtonsBar(
-                Modifier
-                    .fillMaxHeight()
-                    .layout { measurable, constraints ->
-                        val placeable = measurable.measure(constraints)
-                        layout(constraints.maxWidth, constraints.maxHeight) {
-                            placeable.placeRelative(constraints.maxWidth - placeable.width, 0)
-                        }
-                    },
-                btns = butons.takeLast(3),
-                overFlowLimit = overFlowLimit
-            )
         }
     }
 }
@@ -72,15 +76,21 @@ fun TopBar(butons: List<ButtonOptions>, overFlowLimit: Int, title: String? = nul
 @Preview(name = "MaButtonsBarOverFlowCollapseAll", showBackground = true)
 @Composable
 fun MaButtonsBarOverFlowCollapseAll() {
-    TopBar(
-        butons = listOf(
-            ButtonOptions(icon = Icons.Default.ArrowBack),
+    val topBarOptions = TopBarOptions(
+        title = TextOptions("A very long title as it should ellipsize", Color.White),
+        rightButtonOptions = ButtonsBarOptions(2,listOf(
             ButtonOptions(text = "Hello", color = Color.White),
-            ButtonOptions(icon = Icons.Default.Share),
+            ButtonOptions(icon= Icons.Default.Share),
             ButtonOptions(component = ComponentOptions("Component1", "Id")),
             ButtonOptions(iconUri = "https://scontent.ftlv18-1.fna.fbcdn.net/v/t1.6435-9/74624080_1702255263241402_1720765285499142144_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=X4hGmVqhSokAX-iDKzW&_nc_ht=scontent.ftlv18-1.fna&oh=f91d189f22b6a9ecf1ecd7ff0aa59884&oe=6178BA4B")
-        ),
-        overFlowLimit = 2,
-        title = "A very long title as it should ellipsize"
+        )),
+        leftButtonOptions = ButtonsBarOptions(2,listOf(
+            ButtonOptions(icon = Icons.Default.ArrowBack),
+            ButtonOptions(component = ComponentOptions("Component1", "Id")),
+            ButtonOptions(iconUri = "https://scontent.ftlv18-1.fna.fbcdn.net/v/t1.6435-9/74624080_1702255263241402_1720765285499142144_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=X4hGmVqhSokAX-iDKzW&_nc_ht=scontent.ftlv18-1.fna&oh=f91d189f22b6a9ecf1ecd7ff0aa59884&oe=6178BA4B")
+        ))
+    )
+    TopBar(
+        topBarOptions
     )
 }

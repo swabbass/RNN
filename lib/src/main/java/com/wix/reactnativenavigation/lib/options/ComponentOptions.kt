@@ -1,3 +1,7 @@
 package com.wix.reactnativenavigation.lib.options
 
-data class ComponentOptions(val name: String, val componentId: String)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class ComponentOptions(val name: String, val componentId: String):Parcelable
