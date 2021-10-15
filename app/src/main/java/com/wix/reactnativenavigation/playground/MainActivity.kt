@@ -6,8 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import com.wix.reactnativenavigation.lib.composables.topbar.MaButtonsBarOverFlowCollapseAll
 import com.wix.reactnativenavigation.playground.ui.theme.RNNTheme
 
